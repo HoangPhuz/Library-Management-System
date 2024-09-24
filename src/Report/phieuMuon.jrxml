@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="30d6ad1f-b991-499e-aabd-c6ece4e132bb">
+	<property name="ireport.zoom" value="1.100000000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="DatasetPhieuMuon" uuid="69143df8-2ffc-4a83-a2be-af0fa1bc7956">
+		<parameter name="dsMADG" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT
+    *
+FROM
+    (
+    SELECT
+        subquery.issue_id,
+        subquery.reader_id,
+        book.name AS book_name,
+        book.type,
+        book.publisher,
+        subquery.issue_date,
+        subquery.return_date
+    FROM
+        (
+        SELECT
+            issue_book.issue_id,
+            issue_book.reader_id,
+            issue_book_detail.book_id,
+            issue_book.issue_date,
+            issue_book_detail.return_date
+        FROM
+            issue_book
+        RIGHT JOIN issue_book_detail ON issue_book.issue_id = issue_book_detail.issue_id
+        WHERE
+            issue_book_detail.status = 'Chưa trả' AND issue_book.reader_id = $P{dsMADG}
+    ) AS subquery
+LEFT JOIN book ON subquery.book_id = book.id
+) AS subsubquery
+LEFT JOIN reader ON subsubquery.reader_id = reader.id]]>
+		</queryString>
+		<field name="issue_id" class="java.lang.Integer"/>
+		<field name="reader_id" class="java.lang.String"/>
+		<field name="book_name" class="java.lang.String"/>
+		<field name="type" class="java.lang.String"/>
+		<field name="publisher" class="java.lang.String"/>
+		<field name="issue_date" class="java.lang.String"/>
+		<field name="return_date" class="java.lang.String"/>
+		<field name="id" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="name" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="birth_date" class="java.sql.Date">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="gender" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="address" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="email" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="phone" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="create_date" class="java.sql.Date">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="out_of_date" class="java.sql.Date">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<parameter name="MADG" class="java.lang.String"/>
+	<parameter name="MAPHIEU" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="NGAYMUON" class="java.lang.String"/>
+	<parameter name="NGAYTRA" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+    subsubquery.issue_id,
+    subsubquery.reader_id,
+    reader.name AS reader_name,
+    reader.birth_date,
+    reader.phone,
+    subsubquery.book_name,
+	subsubquery.type,
+    subsubquery.publisher,
+    subsubquery.issue_date,
+    subsubquery.return_date
+FROM
+    (
+    SELECT
+        subquery.issue_id,
+        subquery.reader_id,
+        book.name AS book_name,
+        book.type,
+        book.publisher,
+        subquery.issue_date,
+        subquery.return_date
+    FROM
+        (
+        SELECT
+            issue_book.issue_id,
+            issue_book.reader_id,
+            issue_book_detail.book_id,
+            issue_book.issue_date,
+            issue_book_detail.return_date
+        FROM
+            issue_book
+        RIGHT JOIN issue_book_detail ON issue_book.issue_id = issue_book_detail.issue_id
+        WHERE
+            issue_book_detail.status = 'Chưa trả' AND issue_book.reader_id = $P{MADG}
+    ) AS subquery
+LEFT JOIN book ON subquery.book_id = book.id
+) AS subsubquery
+LEFT JOIN reader ON subsubquery.reader_id = reader.id]]>
+	</queryString>
+	<field name="issue_id" class="java.lang.Integer"/>
+	<field name="reader_id" class="java.lang.String"/>
+	<field name="reader_name" class="java.lang.String"/>
+	<field name="birth_date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="phone" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="book_name" class="java.lang.String"/>
+	<field name="type" class="java.lang.String"/>
+	<field name="publisher" class="java.lang.String"/>
+	<field name="issue_date" class="java.lang.String"/>
+	<field name="return_date" class="java.lang.String"/>
+	<variable name="reader_name_1" class="java.lang.Integer" resetType="Page" calculation="Count">
+		<variableExpression><![CDATA[$F{reader_name}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="297" splitType="Stretch">
+			<staticText>
+				<reportElement x="105" y="0" width="382" height="30" uuid="77822f4b-2dcd-4b0d-a894-58c576297954"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HỌC VIỆN CÔNG NGHỆ BƯU CHÍNH VIỄN THÔNG]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="237" y="30" width="100" height="20" uuid="46c64076-0ccb-4798-94bf-28f719f02116"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[THƯ VIỆN PTIT]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="61" width="555" height="1" uuid="27037bd1-70c6-4b90-b344-4894961b0ad9"/>
+			</line>
+			<staticText>
+				<reportElement x="220" y="87" width="149" height="37" uuid="f31e8333-c586-4d88-b9bd-809f1afa5532"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PHIẾU MƯỢN SÁCH]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="29" y="190" width="72" height="20" uuid="748b2e33-de15-41a6-a06b-5f6a138a6a4a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Ngày sinh:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="415" y="222" width="100" height="20" uuid="7cfd75e3-776d-4c79-8bd8-405593bcb060"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NGAYTRA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="415" y="190" width="100" height="20" uuid="4e3c3a83-edc5-4bce-9587-15dbc1a5019f"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{phone}]]></textFieldExpression>
+			</textField>
+			<textField pattern="yyyy-MM-dd">
+				<reportElement x="111" y="190" width="100" height="20" uuid="2c3e7ea6-4f98-41de-8fb2-497e94c9108f"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{birth_date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="29" y="220" width="72" height="20" uuid="0f041f1a-6d45-42da-b322-94f6489f52ac"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Ngày mượn:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="333" y="160" width="82" height="20" uuid="b9840821-4259-42dc-bbd5-30f13fd42d83"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Mã độc giả:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="415" y="160" width="100" height="20" uuid="31bc1c73-c284-421a-89e8-792238e4815b"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{reader_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="461" y="124" width="55" height="20" uuid="c962341c-cc0b-41f8-a8fc-299fb177ffeb"/>
+				<textElement>
+					<font isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{MAPHIEU}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="111" y="160" width="100" height="20" uuid="92e24f79-e192-4f1a-8213-927e0465149a"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{reader_name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="415" y="124" width="46" height="20" uuid="489bec95-c135-4e20-b9ae-2c4f20b57383"/>
+				<textElement>
+					<font isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Mã phiếu:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="111" y="222" width="100" height="18" uuid="8573ab53-85b8-425a-94fd-6d042d6d1702"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NGAYMUON}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="333" y="190" width="82" height="20" uuid="e0c10d2e-5bc7-438b-bf46-172be7fd53f4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Số điện thoại:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="29" y="160" width="72" height="20" uuid="9fb373d9-6553-4faa-893c-73cbbba60e92"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Tên độc giả:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="333" y="222" width="82" height="20" uuid="f3b7df77-5d44-43da-944a-b3c14680e7cb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Ngày trả:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="29" y="258" width="100" height="20" uuid="dbbcbfec-5313-4ec5-9225-fa3da758f2ee"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Danh sách tài liệu:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="215">
+			<componentElement>
+				<reportElement key="table 2" style="table 2" positionType="Float" stretchType="RelativeToTallestObject" x="29" y="17" width="383" height="155" uuid="599af638-f17e-47ab-8cc9-1a3ed56f6f98"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="DatasetPhieuMuon" uuid="81048da1-8e20-4056-84e8-257f3838265a">
+						<datasetParameter name="dsMADG">
+							<datasetParameterExpression><![CDATA[$P{MADG}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90" uuid="925913bf-507d-4a6a-8b8d-bdfa96430f50">
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="357a36c1-a9f0-4604-9b8c-8bbdae8bfdf4"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Mã mượn]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="408ad568-0d4f-4153-86be-950363d0f5d3"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{issue_id}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="6db5f112-8435-429a-a51b-59a430191072">
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="c80b1874-b3f9-4de3-a893-94e0051eed1d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Tên sách]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="d9accb4c-e5cc-44ec-8be6-074d1db81136"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{book_name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="62ce9cf0-86ce-4b6e-b917-3065cf609cd8">
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="a55c688b-f2b8-4695-8565-5c6e96f9d088"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Thể loại]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="90" height="20" uuid="44b731c4-4891-498e-b215-e8c71dd61336"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{type}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="3f31c677-fb02-4529-bba8-0287de3af34a">
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="5f095f98-4297-462e-a3b3-3749ce300b54"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Nhà xuất bản]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="90" height="20" uuid="d9ad1cc3-29ff-4de1-b0fe-9256e2e99dd0"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{publisher}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="c498ea0c-1f08-4105-865f-96cb8388bf7b">
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="74c0f3af-7371-4c6a-b01f-db81871b3d5a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Ngày mượn]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="b9058df1-0b43-456c-8438-2d2225db9f78"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{issue_date}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="903e1280-15a1-41e2-b5d4-07fa0fb0c87d">
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="737f5b90-f6bd-4895-b417-968637419588"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Ngày trả]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="db2c89ca-3e83-4fbe-8eb6-2b5884d37a70"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{return_date}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</columnHeader>
+</jasperReport>
